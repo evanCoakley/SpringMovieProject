@@ -12,34 +12,37 @@ import java.util.stream.Collectors;
 
 
 public class Controller {
-    static final String url ="https://api.themoviedb.org/3/movie/now_playing ?api_key=be2a38521a7859c95e2d73c48786e4bb";
+    static final String url ="https://api.themoviedb.org/3/movie/now_playing?api_key=be2a38521a7859c95e2d73c48786e4bb";
         private static RestTemplate restTemplate = new RestTemplate();
 
 
-        public static List<Movie> getMovies(String route){
-            ResultsPage resultsPage = restTemplate.getForObject(route, ResultsPage.class);
-            return resultsPage.getResults();
-        }
+    public List<Movie> getMovies(String route){
+        ResultsPage resultsPage = restTemplate.getForObject(route, ResultsPage.class);
+        return resultsPage.getResults();
+    }
 
-        @RequestMapping(path="/home", method = RequestMethod.GET)
+        @RequestMapping(path="/", method = RequestMethod.GET)
         public String home(){
-            return "/";
+            return "home";
         }
 
         @RequestMapping(path = "/now-playing", method = RequestMethod.GET)
         public String nowPlaying(Model model) {
-            model.addAttribute("movies", getMovies(url));
+            List<Movie> movies = getMovies(url);
+            model.addAttribute("movies", movies);
             return "now-playing";
         }
 
         @RequestMapping(path = "/medium-popular-long-name", method = RequestMethod.GET)
         public String mediumPopularLongNames(Model model){
-            model.addAttribute("movies", getMovies(url)
+            List<Movie> movies = getMovies(url);
+            model.addAttribute("movies", movies
                                 .stream()
                                 .filter(e -> e.getTitle().length()>=10)
-                                .filter(e -> e.getPopularity()>=30 && e.getPopularity()<=80)
+                                .filter(e -> e.getPopularity()>=70 && e.getPopularity()<=200)
                                 .collect(Collectors.toList()));
             return "medium-popular-long-name";
         }
+
 
 }

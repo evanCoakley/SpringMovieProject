@@ -7,8 +7,14 @@
 <body>
 
 <a href="/">Home</a>
+<br/>
+<a href="/medium-popular-long-name">Movies With Medium Popularity And Long Names</a>
 
-<div th:each=""
+
+<div th:each="movie : ${movies}">
+    <img width="150px" th:src="'http://image.tmdb.org/t/p/original' + ${movie.posterPath}"/>
+    <span th:text="${movie.title}"></span>
+</div>
 
 </body>
 </html>

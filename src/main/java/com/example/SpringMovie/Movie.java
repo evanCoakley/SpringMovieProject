@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Movie {
 
     private String title;
-    @JsonProperty("poster path")
+    @JsonProperty("poster_path")
     private String posterPath;
     private String overview;
     private double  popularity;
